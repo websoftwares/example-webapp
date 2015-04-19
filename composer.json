@@ -1,0 +1,49 @@
+{
+    "name" : "websoftwares/web-app",
+    "description" : "PHP Example web application with an Action-Domain-Responder skeleton",
+    "keywords" : [
+        "Action Domain Responder",
+        "ADR",
+        "Skeleton",
+        "Domain Objects"
+    ],
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name": "Boris Verhaaff",
+            "email": "boris@websoftwar.es",
+            "role" : "Developer"
+        }
+    ],
+
+    "require" : {
+        "php": ">=5.5.0",
+        "symfony/http-foundation": "~2.6.0",
+        "aura/router": "~2.2.0",
+        "league/container": "~1.3.2",       
+        "foa/domain-payload" : "~1.0.0",
+        "monolog/monolog" : "~1.13.0",
+        "davedevelopment/stiphle": "dev-master",
+        "swiftmailer/swiftmailer": "5.4.0",
+        "vlucas/phpdotenv": "~1.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Websoftwares\\Skeleton\\":  "skeleton/",
+            "Websoftwares\\Application\\":  "application/",
+            "Websoftwares\\Domain\\":  "domain/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "dev-master",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Websoftwares\\Tests\\Skeleton": "tests/application",
+            "Websoftwares\\Tests\\Application\\":  "tests/skeleton/",
+            "Websoftwares\\Tests\\Domain\\":  "tests/domain/"
+        }
+    },
+    "minimum-stability ": "dev"
+}
