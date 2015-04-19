@@ -29,9 +29,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Websoftwares\\Skeleton\\":  "skeleton/",
-            "Websoftwares\\Application\\":  "application/",
-            "Websoftwares\\Domain\\":  "domain/"
+            "Websoftwares\\Skeleton\\":  "skeleton",
+            "Websoftwares\\Application\\":  "application",
+            "Websoftwares\\Domain\\":  "domain"
         }
     },
     "require-dev": {
@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Websoftwares\\Tests\\Skeleton": "tests/application",
+            "Websoftwares\\Tests\\Skeleton\\": "tests/application/",
             "Websoftwares\\Tests\\Application\\":  "tests/skeleton/",
             "Websoftwares\\Tests\\Domain\\":  "tests/domain/"
         }
