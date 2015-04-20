@@ -15,7 +15,7 @@ class ActivationProvider extends ServiceProvider
      * @var array
      */
     protected $provides = [
-        'activation.get'
+        'activation.get',
     ];
 
     public function register()

@@ -51,12 +51,11 @@ class GetActivationAction
      * @param UserActivationService $userActivationService
      */
     public function __construct(
-        Request $request, 
+        Request $request,
         Responder $responder,
         UserService $userService,
         UserActivationService $userActivationService
-        )
-    {
+        ) {
         $this->request = $request;
         $this->responder = $responder;
         $this->userService = $userService;
@@ -72,9 +71,7 @@ class GetActivationAction
      */
     public function __invoke(array $params = [])
     {
-
         $userActivation = $this->userActivationService->fetchUserActivationByToken($params['token']);
-
 
         $user = null;
 
@@ -87,7 +84,7 @@ class GetActivationAction
             // Activate user
             $user = $this->userService->updateUser(array(
                 'id' => $userActivation->userId,
-                'active' => 1
+                'active' => 1,
                 )
             );
         }

@@ -95,7 +95,7 @@ class UserService
             }
 
             $saveUserEntity = clone $userEntity;
-            $saveUserEntity->password = \password_hash('rasmuslerdorf', PASSWORD_DEFAULT);
+            $saveUserEntity->password = \password_hash($userEntity->password, PASSWORD_DEFAULT);
 
             $savedUserEntity = $this->userGateway->insert($saveUserEntity);
 

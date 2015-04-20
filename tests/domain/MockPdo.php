@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain;
+namespace Websoftwares\Tests\domain;
 
 class MockPdo extends \PDO
 {

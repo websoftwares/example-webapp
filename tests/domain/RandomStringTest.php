@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Test\Domain;
+namespace Websoftwares\Test\domain;
 
 use Websoftwares\Domain\RandomString;
 

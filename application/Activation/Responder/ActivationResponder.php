@@ -13,8 +13,8 @@ use Websoftwares\Skeleton\AbstractResponder;
 class ActivationResponder extends AbstractResponder
 {
     /**
-     * $view
-     * 
+     * $view.
+     *
      * @var string
      */
     protected $view;
@@ -59,13 +59,14 @@ class ActivationResponder extends AbstractResponder
     }
 
     /**
-     * setView
-     * 
+     * setView.
+     *
      * @param string $name
      */
     public function setView($view)
     {
         $this->view = $view;
+
         return $this;
     }
 

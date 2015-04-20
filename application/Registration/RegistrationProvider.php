@@ -27,7 +27,7 @@ class RegistrationProvider extends ServiceProvider
         $container->addServiceProvider('Websoftwares\Domain\UserActivation\UserActivationProvider');
         $container->addServiceProvider('Websoftwares\Domain\Mail\MailProvider');
 
-        $container->add('Kunststube\CSRFP\SignatureGenerator', function() {
+        $container->add('Kunststube\CSRFP\SignatureGenerator', function () {
             return new \Kunststube\CSRFP\SignatureGenerator($_ENV['APP_SECRET']);
         });
 

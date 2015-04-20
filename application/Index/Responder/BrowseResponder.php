@@ -13,6 +13,13 @@ use Websoftwares\Skeleton\AbstractResponder;
 class BrowseResponder extends AbstractResponder
 {
     /**
+     * $view.
+     *
+     * @var string
+     */
+    protected $view;
+
+    /**
      * $format.
      *
      * @var string
@@ -52,13 +59,25 @@ class BrowseResponder extends AbstractResponder
     }
 
     /**
+     * setView.
+     *
+     * @param string $name
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    /**
      * getView.
      *
      * @return string
      */
     public function getView()
     {
-        $file = __DIR__.'/../views/browse'.$this->getFormat().'.php';
+        $file = __DIR__.'/../views/'.$this->view.$this->getFormat().'.php';
         if (! file_exists($file)) {
             throw new \OutOfRangeException('the file: '.$file.' could not be retrieved');
         }

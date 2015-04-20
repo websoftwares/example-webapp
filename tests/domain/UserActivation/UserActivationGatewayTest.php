@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\UserActivation;
+namespace Websoftwares\Tests\domain\UserActivation;
 
 use Websoftwares\Domain\UserActivation\UserActivationGateway;
 use Websoftwares\Domain\UserActivation\UserActivationEntity;

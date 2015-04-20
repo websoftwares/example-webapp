@@ -28,7 +28,7 @@ class BaseGateway
 
         $data = (array) $data;
 
-        foreach (array_filter($data,'strlen') as $name => $value) {
+        foreach (array_filter($data, 'strlen') as $name => $value) {
             $query .= ' '.$name.' = :'.$name.','; // the :$name part is the placeholder, e.g. :zip
             $values[':'.$name] = $value; // save the placeholder
         }

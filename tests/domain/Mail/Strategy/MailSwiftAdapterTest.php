@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\Mail\Strategy;
+namespace Websoftwares\Tests\domain\Mail\Strategy;
 
 use Websoftwares\Domain\Mail\Strategy\MailSwiftAdapter;
 use Websoftwares\Domain\Mail\MailMessageEntity;

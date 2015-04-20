@@ -28,7 +28,8 @@
         "websoftwares/throttle": "dev-master",
         "swiftmailer/swiftmailer": "5.4.0",
         "vlucas/phpdotenv": "~1.1.0",
-        "kunststube/csrfp" : "dev-master"
+        "kunststube/csrfp" : "dev-master",
+        "gregwar/captcha": "dev-master"
     },
     "autoload": {
         "psr-4": {

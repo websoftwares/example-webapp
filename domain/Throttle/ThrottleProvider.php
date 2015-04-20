@@ -2,53 +2,41 @@
 
 namespace Websoftwares\Domain\Throttle;
 
-use Websoftwares\Domain\Throttle\ThrottleFactory;
-use FOA\DomainPayload\PayloadFactory;
-use Psr\Log\LoggerInterface;
+use League\Container\ServiceProvider;
 
 /**
- * ThrottleService.
+ * class ThrottleProvider.
  *
  * @license http://opensource.org/licenses/MIT
  * @author Boris <boris@websoftwar.es>
  */
-class ThrottleService
+class ThrottleProvider extends ServiceProvider
 {
     /**
-     * $throttleFactory.
+     * $provides.
      *
-     * @var object
+     * @var array
      */
-    protected $throttleFactory;
+    protected $provides = [
+        'Websoftwares\Domain\Throttle\ThrottleFactory',
+        'Websoftwares\Domain\Throttle\ThrottleService'
+    ];
 
-    /**
-     * $payloadFactory.
-     *
-     * @var object
-     */
-    protected $payloadFactory;
+    public function register()
+    {
+        $container = $this->getContainer();
 
-    /**
-     * $logger.
-     *
-     * @var object
-     */
-    protected $logger;
+        $container->add('Monolog\Logger')
+            ->withArgument('throttle')
+            ->withMethodCall('pushHandler', [
+                    new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/domain.log', \Monolog\Logger::WARNING),
+                ]
+            );
+        $container->add('Websoftwares\Domain\Throttle\ThrottleFactory');
 
-    /**
-     * __construct.
-     *
-     * @param ThrottleFactory       $throttle
-     * @param PayloadFactory        $payloadFactory
-     * @param LoggerInterface       $logger
-     */
-    public function __construct(
-        ThrottleFactory $throttleFactory,
-        PayloadFactory $payloadFactory,
-        LoggerInterface $logger
-        ) {
-        $this->throttleFactory = $throttleFactory;
-        $this->payloadFactory = $payloadFactory;
-        $this->logger = $logger;
+        $container->add('Websoftwares\Domain\Throttle\ThrottleService')
+            ->withArgument('Websoftwares\Domain\Throttle\ThrottleFactory')
+            ->withArgument('FOA\DomainPayload\PayloadFactory')
+            ->withArgument('Monolog\Logger');
     }
 }

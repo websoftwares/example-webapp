@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\User;
+namespace Websoftwares\Tests\domain\User;
 
 use League\Container\Container;
 

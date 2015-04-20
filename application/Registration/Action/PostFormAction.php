@@ -52,16 +52,15 @@ class PostFormAction
     protected $mailService;
 
     /**
-     * $signer
-     * 
+     * $signer.
+     *
      * @var object
      */
     protected $signer;
 
-
     /**
-     * __construct
-     * 
+     * __construct.
+     *
      * @param Request               $request
      * @param Responder             $responder
      * @param UserService           $userService

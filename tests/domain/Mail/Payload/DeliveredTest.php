@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\Mail\Payload;
+namespace Websoftwares\Tests\domain\Mail\Payload;
 
 use Websoftwares\Domain\Mail\Payload\Delivered;
 
