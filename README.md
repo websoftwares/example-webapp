@@ -1,4 +1,4 @@
-#Websoftwares exampleweb application
+#Example web application
 PHP Example web application with an Action-Domain-Responder skeleton
 
 ##System requirements
