@@ -236,12 +236,6 @@ class UserServiceTest extends \PHPUnit_Framework_TestCase
 
         $userEntity =  new UserEntity($data);
 
-        $this->userGateway->expects($this->once())->method('fetchOne')
-                ->will($this->returnValue(
-                    $userEntity
-                    )
-                );
-
         $userService = new UserService(
             $this->userGateway,
             $this->userFilter,

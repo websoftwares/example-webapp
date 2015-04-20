@@ -1,11 +1,10 @@
 <?php
+
 namespace Websoftwares\Skeleton;
 
 /**
  * AbstractResponder class.
- * 
- * @package Websoftwares
- * @subpackage Skeleton
+ *
  * @author Boris <boris@websoftwar.es>
  */
 abstract class AbstractResponder

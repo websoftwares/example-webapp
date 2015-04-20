@@ -1,5 +1,6 @@
 <?php
-namespace Websoftwares\Application\Index\Domain;
+
+namespace Websoftwares\Application\Index;
 
 use League\Container\ServiceProvider;
 
@@ -14,13 +15,14 @@ class IndexProvider extends ServiceProvider
      * @var array
      */
     protected $provides = [
-        "index.browse",
+        'index.browse',
     ];
 
     public function register()
     {
         $this->getContainer()->add('Websoftwares\Application\Index\Responder\BrowseResponder')
             ->withArgument('response');
+        
         $this->getContainer()->add('index.browse', 'Websoftwares\Application\Index\Action\BrowseAction')
             ->withArgument('Websoftwares\Application\Index\Responder\BrowseResponder');
     }

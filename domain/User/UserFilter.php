@@ -63,7 +63,6 @@ class UserFilter extends BaseFilter
         $this->messages = array();
 
         $this->id();
-        $this->email();
 
         return $this->isValid();
     }

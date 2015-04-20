@@ -5,6 +5,12 @@ PHP Example web application with an Action-Domain-Responder skeleton
 - PHP 5.5+
 - MySQL 5.6+
 - Linux system
+- [Working smtp server](http://askubuntu.com/a/368046)
+- Memcached, Easy insall on ubuntu systems:
+
+```
+sudo apt-get install memcached php5-memcached
+```
 
 ## Installation
 

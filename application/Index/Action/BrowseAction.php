@@ -1,7 +1,12 @@
 <?php
+
 namespace Websoftwares\Application\Index\Action;
 
 use Websoftwares\Application\Index\Responder\BrowseResponder as Responder;
+
+use Symfony\Component\HttpFoundation\Request;
+use Websoftwares\Domain\User\UserService;
+use Kunststube\CSRFP\SignatureGenerator;
 
 /**
  * BrowseResponder class.
@@ -30,8 +35,8 @@ class BrowseAction
     public function __invoke(array $params = [])
     {
         return $this->responder
-            ->setVariable("data", ["title" => "Hello World", "body" => "Hello World"])
-            ->setFormat($params["format"])
+            ->setVariable('data', ['title' => 'Hello World', 'body' => 'Hello World'])
+            ->setFormat($params['format'])
             ->__invoke();
     }
 }

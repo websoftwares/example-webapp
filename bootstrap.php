@@ -1,4 +1,5 @@
 <?php
+session_start();
 /*
 |--------------------------------------------------------------------------
 | Error reporting enabled default remove for production
@@ -11,7 +12,13 @@ ini_set('display_errors', 1);
 | Autoload classes
 |--------------------------------------------------------------------------
 */
-include "vendor/autoload.php";
+include 'vendor/autoload.php';
+/*
+|--------------------------------------------------------------------------
+| Load environment settings
+|--------------------------------------------------------------------------
+*/
+Dotenv::load(__DIR__);
 /*
 |--------------------------------------------------------------------------
 | Config IoC container object.
@@ -20,7 +27,7 @@ include "vendor/autoload.php";
 $container = new League\Container\Container();
 /*
 |--------------------------------------------------------------------------
-| Config Request <== Maybe swap out for PSR-7
+| Config Request
 |--------------------------------------------------------------------------
 */
 $container->add('request', function () {
@@ -28,7 +35,7 @@ $container->add('request', function () {
 });
 /*
 |--------------------------------------------------------------------------
-| Config Response <== Maybe swap out for PSR-7
+| Config Response
 |--------------------------------------------------------------------------
 */
 $container->add('response', function () {
@@ -42,6 +49,7 @@ $container->add('response', function () {
 $container->add('router', function () {
     $router_factory = new \Aura\Router\RouterFactory();
     $router = $router_factory->newInstance();
+
     return $router;
 });
 /*
@@ -51,7 +59,7 @@ $container->add('router', function () {
 |--------------------------------------------------------------------------
 */
 try {
-    $dispatcher = new Websoftwares\Skeleton\Dispatcher;
+    $dispatcher = new Websoftwares\Skeleton\Dispatcher();
     $dispatcher($container);
 } catch (\Exception $e) {
     // This is to be moved to a package NotFound

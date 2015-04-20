@@ -42,7 +42,7 @@ class UserActivationProvider extends ServiceProvider
         $container->add('Monolog\Logger')
             ->withArgument('userActivation')
             ->withMethodCall('pushHandler', [
-                new \Monolog\Handler\StreamHandler(__DIR__.'./logs/domain.log', \Monolog\Logger::WARNING), ]
+                new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/domain.log', \Monolog\Logger::WARNING), ]
         );
 
         $container->add('Websoftwares\Domain\UserActivation\UserActivationFactory');

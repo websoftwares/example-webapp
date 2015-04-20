@@ -1,17 +1,24 @@
 <?php
 
-namespace Websoftwares\Application\Index\Responder;
+namespace Websoftwares\Application\Activation\Responder;
 
 use Symfony\Component\HttpFoundation\Response;
 use Websoftwares\Skeleton\AbstractResponder;
 
 /**
- * BrowseResponder class.
+ * ActivationResponder class.
  *
  * @author Boris <boris@websoftwar.es>
  */
-class BrowseResponder extends AbstractResponder
+class ActivationResponder extends AbstractResponder
 {
+    /**
+     * $view
+     * 
+     * @var string
+     */
+    protected $view;
+
     /**
      * $format.
      *
@@ -52,13 +59,24 @@ class BrowseResponder extends AbstractResponder
     }
 
     /**
+     * setView
+     * 
+     * @param string $name
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+        return $this;
+    }
+
+    /**
      * getView.
      *
      * @return string
      */
     public function getView()
     {
-        $file = __DIR__.'/../views/browse'.$this->getFormat().'.php';
+        $file = __DIR__.'/../views/'.$this->view.$this->getFormat().'.php';
         if (! file_exists($file)) {
             throw new \OutOfRangeException('the file: '.$file.' could not be retrieved');
         }

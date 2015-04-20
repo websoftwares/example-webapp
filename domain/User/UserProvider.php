@@ -42,7 +42,7 @@ class UserProvider extends ServiceProvider
         $container->add('Monolog\Logger')
             ->withArgument('user')
             ->withMethodCall('pushHandler', [
-                new \Monolog\Handler\StreamHandler(__DIR__.'./logs/domain.log', \Monolog\Logger::WARNING), ]);
+                new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/domain.log', \Monolog\Logger::WARNING), ]);
 
         $container->add('Websoftwares\Domain\User\UserFactory');
         $container->add('Websoftwares\Domain\User\UserFilter');

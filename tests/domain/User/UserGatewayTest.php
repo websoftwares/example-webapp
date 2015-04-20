@@ -128,7 +128,7 @@ class UserGatewayTest extends \PHPUnit_Framework_TestCase
 
     public function testInsertSucceeds()
     {
-        $sql = 'INSERT INTO users (name, email, password) VALUES (:name, :email, :password)';
+        $sql = 'INSERT INTO users (name, email, password, active) VALUES (:name, :email, :password, :active)';
         $params = [
                 'name' => 'Boris Verhaaff',
                 'email' => 'boris@websoftwar.es',
@@ -162,7 +162,7 @@ class UserGatewayTest extends \PHPUnit_Framework_TestCase
 
     public function testDidNotInsert()
     {
-        $sql = 'INSERT INTO users (name, email, password) VALUES (:name, :email, :password)';
+        $sql = 'INSERT INTO users (name, email, password, active) VALUES (:name, :email, :password, :active)';
         $params = [
                 'name' => 'Boris Verhaaff',
                 'email' => 'boris@websoftwar.es',
@@ -194,7 +194,7 @@ class UserGatewayTest extends \PHPUnit_Framework_TestCase
      */
     public function testInsertFailsException()
     {
-        $sql = 'INSERT INTO users (name, email, password) VALUES (:name, :email, :password)';
+        $sql = 'INSERT INTO users (name, email, password, active) VALUES (:name, :email, :password, :active)';
         $params = [
                 'name' => 'Boris Verhaaff',
                 'email' => 'boris@websoftwar.es',

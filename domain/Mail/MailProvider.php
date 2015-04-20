@@ -31,7 +31,7 @@ class MailProvider extends ServiceProvider
         $container->add('Monolog\Logger')
             ->withArgument('mail')
             ->withMethodCall('pushHandler', [
-                    new \Monolog\Handler\StreamHandler(__DIR__.'./logs/domain.log', \Monolog\Logger::WARNING),
+                    new \Monolog\Handler\StreamHandler(__DIR__.'/../../logs/domain.log', \Monolog\Logger::WARNING),
                 ]
             );
 

@@ -77,7 +77,7 @@ class UserGateway extends BaseGateway
      */
     public function insert(UserEntity $entity)
     {
-        $sql = 'INSERT INTO users (name, email, password) VALUES (:name, :email, :password)';
+        $sql = 'INSERT INTO users (name, email, password, active) VALUES (:name, :email, :password, :active)';
 
         try {
             $stmt = $this->db->prepare($sql);
