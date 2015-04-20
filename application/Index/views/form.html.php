@@ -20,7 +20,7 @@
                  htmlspecialchars($signature)); ?>
 
 
-			<?php if(isset($captcha)):?>
+			<?php if (isset($captcha)):?>
 				<div>
 					<img src="<?= $captcha->inline(); ?>" />
 				</div>

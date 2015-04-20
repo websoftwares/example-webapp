@@ -40,8 +40,8 @@ class IndexProvider extends ServiceProvider
             ->withArgument('Kunststube\CSRFP\SignatureGenerator')
             ;
 
-        $container->add('Gregwar\Captcha\CaptchaBuilder', function() {
-            return new \Gregwar\Captcha\CaptchaBuilder;
+        $container->add('Gregwar\Captcha\CaptchaBuilder', function () {
+            return new \Gregwar\Captcha\CaptchaBuilder();
         });
 
         $container->add('index.browse.post', 'Websoftwares\Application\Index\Action\BrowsePostAction')

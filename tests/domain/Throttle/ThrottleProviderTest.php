@@ -7,7 +7,7 @@ use League\Container\Container;
 /**
  * Class UserActivationProviderTest.
  */
-class MailProviderTest extends \PHPUnit_Framework_TestCase
+class ThrottleProviderTest extends \PHPUnit_Framework_TestCase
 {
     public $container;
 

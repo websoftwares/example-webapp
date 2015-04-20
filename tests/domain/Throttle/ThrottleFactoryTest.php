@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\Throttle;
+namespace Websoftwares\Tests\domain\Throttle;
 
 use Websoftwares\Domain\Throttle\ThrottleFactory;
 

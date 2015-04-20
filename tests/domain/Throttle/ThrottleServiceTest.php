@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\Throttle;
+namespace Websoftwares\Tests\domain\Throttle;
 
 use FOA\DomainPayload\PayloadFactory;
 use Websoftwares\Domain\Throttle\ThrottleFactory;
@@ -23,8 +23,8 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->throttleFactory = new ThrottleFactory;
-        $this->payloadFactory = new PayloadFactory;
+        $this->throttleFactory = new ThrottleFactory();
+        $this->payloadFactory = new PayloadFactory();
         $this->logger = $this->getMock('Psr\Log\LoggerInterface');
 
         $this->throttleService = new ThrottleService(
@@ -35,7 +35,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->identifiers = array(
                 'email' => 'boris@websoftwar.es',
-                'ip' => '88.88.86.86'
+                'ip' => '88.88.86.86',
             );
     }
 
@@ -67,7 +67,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
         $ipAddressMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($this->identifiers['ip']))
-            ->will($this->returnValue(false));   
+            ->will($this->returnValue(false));
 
         $throttleFactory->expects($this->any())
             ->method('userEmail')
@@ -77,13 +77,11 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
             ->method('ipAddress')
             ->will($this->returnValue($ipAddressMock));
 
-
         $throttleService = new ThrottleService(
             $throttleFactory,
             $this->payloadFactory,
             $this->logger
         );
-
 
         $actual = $throttleService->validate($this->identifiers);
 
@@ -124,13 +122,11 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
             ->method('ipAddress')
             ->will($this->returnValue($ipAddressMock));
 
-
         $throttleService = new ThrottleService(
             $throttleFactory,
             $this->payloadFactory,
             $this->logger
         );
-
 
         $actual = $throttleService->validate($this->identifiers);
 
@@ -180,7 +176,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
         $cRangeMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo('88.88.0.0'))
-            ->will($this->returnValue(true));   
+            ->will($this->returnValue(true));
 
         // Factory method
         $throttleFactory->expects($this->once())
@@ -188,7 +184,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($bRangeMock));
 
         $throttleFactory->expects($this->once())
-            ->method('cRange')  
+            ->method('cRange')
             ->will($this->returnValue($cRangeMock));
 
         $throttleFactory->expects($this->once())
@@ -208,7 +204,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
         $actual = $throttleService->validate($this->identifiers);
 
         $this->assertInstanceOf('FOA\DomainPayload\NotValid', $actual);
- 
+
         $this->assertEquals('88.0.0.0', $actual->get('bRange'));
     }
 
@@ -262,7 +258,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($bRangeMock));
 
         $throttleFactory->expects($this->once())
-            ->method('cRange')  
+            ->method('cRange')
             ->will($this->returnValue($cRangeMock));
 
         $throttleFactory->expects($this->once())
@@ -281,13 +277,12 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
 
         $actual = $throttleService->validate($this->identifiers);
         $this->assertInstanceOf('FOA\DomainPayload\NotValid', $actual);
- 
+
         $this->assertEquals('88.88.0.0', $actual->get('cRange'));
     }
 
     public function testValidateFailsOnException()
     {
-
         $exception = new \Exception('test', 1);
 
         $throttleFactory = $this->getMock('Websoftwares\Domain\Throttle\ThrottleFactory');
@@ -388,7 +383,7 @@ class ThrottleServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($bRangeMock));
 
         $throttleFactory->expects($this->any())
-            ->method('cRange')  
+            ->method('cRange')
             ->will($this->returnValue($cRangeMock));
 
         $throttleFactory->expects($this->any())

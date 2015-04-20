@@ -1,6 +1,6 @@
 <?php
 
-namespace Websoftwares\Tests\Domain\Mail;
+namespace Websoftwares\Tests\domain\Mail;
 
 use Websoftwares\Domain\Mail\MailMessageEntity;
 

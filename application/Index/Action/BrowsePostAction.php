@@ -1,8 +1,8 @@
 <?php
+
 namespace Websoftwares\Application\Index\Action;
 
 use Websoftwares\Application\Index\Responder\BrowseResponder as Responder;
-
 use Symfony\Component\HttpFoundation\Request;
 use Websoftwares\Domain\User\UserService;
 use Websoftwares\Domain\Throttle\ThrottleService;
@@ -52,8 +52,8 @@ class BrowsePostAction
     protected $signer;
 
     /**
-     * $captchaBuilder
-     * 
+     * $captchaBuilder.
+     *
      * @var object
      */
     protected $captchaBuilder;
@@ -61,12 +61,12 @@ class BrowsePostAction
     /**
      * __construct.
      *
-     * @param Request               $request
-     * @param Responder             $responder
-     * @param UserService           $throttleService
-     * @param ThrottleService $userActivationService
-     * @param SignatureGenerator    $signer
-     * @param CaptchaBuilder    $captchaBuilder
+     * @param Request            $request
+     * @param Responder          $responder
+     * @param UserService        $throttleService
+     * @param ThrottleService    $userActivationService
+     * @param SignatureGenerator $signer
+     * @param CaptchaBuilder     $captchaBuilder
      */
     public function __construct(
         Request $request,
@@ -93,7 +93,7 @@ class BrowsePostAction
      * @return string
      */
     public function __invoke(array $params = [])
-    { 
+    {
         // Invalid request made
         if (!$this->signer->validateSignature($this->request->get('_token'))) {
             throw new \Exception('Invalid request');
@@ -111,7 +111,6 @@ class BrowsePostAction
 
         // If we have email set indentifier and get user data
         if ($email = $user['email']) {
-
             $identifiers['email'] = $email;
             $userData = $this->userService->fetchUserByEmail($email);
 
@@ -130,10 +129,10 @@ class BrowsePostAction
 
         //Build captcha
         if ($showCaptcha instanceof \FOA\DomainPayload\NotValid) {
-            $this->captchaBuilder->build();  
+            $this->captchaBuilder->build();
             $this->responder->setVariable('captcha',  $this->captchaBuilder);
 
-            if (isset($_SESSION['phrase']) 
+            if (isset($_SESSION['phrase'])
                 && $this->request->get('captcha')['phrase'] == $_SESSION['phrase']) {
                 $login = true;
                 echo $login;
@@ -144,7 +143,7 @@ class BrowsePostAction
 
         // Login user
         if ($login) {
-            $_SESSION['user'] = (array)$userData->get('user');
+            $_SESSION['user'] = (array) $userData->get('user');
             header('Location: /');
             exit();
         }

@@ -2,7 +2,6 @@
 
 namespace Websoftwares\Domain\Throttle;
 
-use Websoftwares\Domain\Throttle\ThrottleFactory;
 use FOA\DomainPayload\PayloadFactory;
 use Psr\Log\LoggerInterface;
 
@@ -38,9 +37,9 @@ class ThrottleService
     /**
      * __construct.
      *
-     * @param ThrottleFactory       $throttle
-     * @param PayloadFactory        $payloadFactory
-     * @param LoggerInterface       $logger
+     * @param ThrottleFactory $throttle
+     * @param PayloadFactory  $payloadFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ThrottleFactory $throttleFactory,
@@ -53,17 +52,17 @@ class ThrottleService
     }
 
     /**
-     * validate
-     * 
+     * validate.
+     *
      * @param array $identifiers
+     *
      * @todo  Idea could be moved to a filter object
-     * 
-     * @return boolean
+     *
+     * @return bool
      */
     public function validate(array $identifiers)
     {
         try {
-
             $payLoad = [];
 
             // Validate ipadress based identifiers
@@ -110,7 +109,7 @@ class ThrottleService
             }
 
             // Ip adress failed
-            if(! $ipAddress) {
+            if (! $ipAddress) {
                 // Return
                 return $this->payloadFactory->notValid(array(
                     'ip' => $identifiers['ip'],
@@ -118,7 +117,7 @@ class ThrottleService
             }
 
             // userEmail failed
-            if(! $userEmail) {
+            if (! $userEmail) {
                 // Return
                 return $this->payloadFactory->notValid(array(
                     'email' => $identifiers['email'],
@@ -133,7 +132,6 @@ class ThrottleService
                     'ip' =>  $this->throttleFactory->ipAddress($this->logger)->remaining($identifiers['ip']),
                     )
                 );
-
         } catch (\Exception $e) {
 
             // Log

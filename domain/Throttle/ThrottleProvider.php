@@ -19,7 +19,7 @@ class ThrottleProvider extends ServiceProvider
      */
     protected $provides = [
         'Websoftwares\Domain\Throttle\ThrottleFactory',
-        'Websoftwares\Domain\Throttle\ThrottleService'
+        'Websoftwares\Domain\Throttle\ThrottleService',
     ];
 
     public function register()

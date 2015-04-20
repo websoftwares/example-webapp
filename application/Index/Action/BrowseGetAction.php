@@ -45,10 +45,10 @@ class BrowseGetAction
     /**
      * __construct.
      *
-     * @param Request               $request
-     * @param Responder             $responder
-     * @param UserService           $userService
-     * @param SignatureGenerator    $signer
+     * @param Request            $request
+     * @param Responder          $responder
+     * @param UserService        $userService
+     * @param SignatureGenerator $signer
      */
     public function __construct(
         Request $request,
@@ -78,10 +78,11 @@ class BrowseGetAction
             $this->responder
                 ->setView('browse')
                 ->setVariable('data', [
-                    'title' => 'Example web application ', 
-                    'body' => 'Hello ' . $_SESSION['user']['name']
+                    'title' => 'Example web application ',
+                    'body' => 'Hello '.$_SESSION['user']['name'],
                     ]);
         }
+
         return $this->responder
             ->setVariable('signature', $this->signer->getSignature())
             ->setFormat($params['format'])
