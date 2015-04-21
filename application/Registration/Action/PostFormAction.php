@@ -31,14 +31,14 @@ class PostFormAction
     protected $responder;
 
     /**
-     * $request.
+     * $userService.
      *
      * @var object
      */
     protected $userService;
 
     /**
-     * $responder.
+     * $userActivationService.
      *
      * @var object
      */

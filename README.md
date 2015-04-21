@@ -1,5 +1,5 @@
-#Example web application
-PHP Example web application with an Action-Domain-Responder skeleton
+#Websoftwares example domain
+PHP Example web application with an [Action-Domain-Responder](https://github.com/pmjones/adr) skeleton
 
 ##System requirements
 - PHP 5.5+

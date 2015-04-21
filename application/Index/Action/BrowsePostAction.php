@@ -31,7 +31,7 @@ class BrowsePostAction
     protected $responder;
 
     /**
-     * $request.
+     * $userService.
      *
      * @var object
      */

@@ -29,7 +29,7 @@ class BrowseGetAction
     protected $responder;
 
     /**
-     * $request.
+     * $userService.
      *
      * @var object
      */

@@ -5,7 +5,7 @@ namespace Websoftwares\Tests\Throttle\Mail;
 use League\Container\Container;
 
 /**
- * Class UserActivationProviderTest.
+ * Class ThrottleProviderTest.
  */
 class ThrottleProviderTest extends \PHPUnit_Framework_TestCase
 {
