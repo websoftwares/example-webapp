@@ -1,4 +1,4 @@
-#Websoftwares example domain
+#Example web application
 PHP Example web application with an [Action-Domain-Responder](https://github.com/pmjones/adr) skeleton
 
 ##System requirements
