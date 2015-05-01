@@ -3,7 +3,8 @@
 namespace Websoftwares\Application\Index\Action;
 
 use Websoftwares\Application\Index\Responder\BrowseResponder as Responder;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Websoftwares\Domain\User\UserService;
 use Websoftwares\Domain\Throttle\ThrottleService;
 use Kunststube\CSRFP\SignatureGenerator;
@@ -16,13 +17,6 @@ use Gregwar\Captcha\CaptchaBuilder;
  */
 class BrowsePostAction
 {
-    /**
-     * $request.
-     *
-     * @var object
-     */
-    protected $request;
-
     /**
      * $responder.
      *
@@ -61,7 +55,6 @@ class BrowsePostAction
     /**
      * __construct.
      *
-     * @param Request            $request
      * @param Responder          $responder
      * @param UserService        $throttleService
      * @param ThrottleService    $userActivationService
@@ -69,14 +62,12 @@ class BrowsePostAction
      * @param CaptchaBuilder     $captchaBuilder
      */
     public function __construct(
-        Request $request,
         Responder $responder,
         UserService $userService,
         ThrottleService $throttleService,
         SignatureGenerator $signer,
         CaptchaBuilder $captchaBuilder
         ) {
-        $this->request = $request;
         $this->responder = $responder;
         $this->userService = $userService;
         $this->throttleService = $throttleService;
@@ -86,16 +77,20 @@ class BrowsePostAction
     }
 
     /**
+     /**
      * __invoke.
      *
-     * @param array $params
+     * @param  Request
+     * @param  Response
      *
-     * @return string
+     * @return Response
      */
-    public function __invoke(array $params = [])
+    public function __invoke(Request $request, Response $response)
     {
+        $body = $request->getParsedBody();
+
         // Invalid request made
-        if (!$this->signer->validateSignature($this->request->get('_token'))) {
+        if (!$this->signer->validateSignature($body['_token'])) {
             throw new \Exception('Invalid request');
         }
 
@@ -103,11 +98,11 @@ class BrowsePostAction
         $login = false;
 
         // Get user input and ip
-        $user = $this->request->get('user');
-        $ip = $this->request->getClientIp();
+        $user = $body['user'];
+        $ip = $request->getServerParams()['REMOTE_ADDR'];
 
         // Set identifiers
-        $identifiers['ip'] = $this->request->getClientIp();
+        $identifiers['ip'] = $ip;
 
         // If we have email set indentifier and get user data
         if ($email = $user['email']) {
@@ -133,9 +128,9 @@ class BrowsePostAction
             $this->responder->setVariable('captcha',  $this->captchaBuilder);
 
             if (isset($_SESSION['phrase'])
-                && $this->request->get('captcha')['phrase'] == $_SESSION['phrase']) {
+                && isset($body['captcha'])
+                && $body['captcha']['phrase'] == $_SESSION['phrase']) {
                 $login = true;
-                echo $login;
             }
 
             $_SESSION['phrase'] = $this->captchaBuilder->getPhrase();
@@ -148,10 +143,11 @@ class BrowsePostAction
             exit();
         }
 
-        return $this->responder
+        $responder = $this->responder
             ->setView('form')
             ->setVariable('signature', $this->signer->getSignature())
-            ->setFormat($params['format'])
-            ->__invoke();
+            ->setFormat($request->getAttribute('format'));
+
+        return $responder($response);
     }
 }

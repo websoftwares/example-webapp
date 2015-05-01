@@ -3,7 +3,8 @@
 namespace Websoftwares\Application\Activation\Action;
 
 use Websoftwares\Application\Activation\Responder\ActivationResponder as Responder;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Websoftwares\Domain\User\UserService;
 use Websoftwares\Domain\UserActivation\UserActivationService;
 
@@ -14,13 +15,6 @@ use Websoftwares\Domain\UserActivation\UserActivationService;
  */
 class GetActivationAction
 {
-    /**
-     * $request.
-     *
-     * @var object
-     */
-    protected $request;
-
     /**
      * $responder.
      *
@@ -45,18 +39,15 @@ class GetActivationAction
     /**
      * __construct.
      *
-     * @param Request               $request
      * @param Responder             $responder
      * @param UserService           $userService
      * @param UserActivationService $userActivationService
      */
     public function __construct(
-        Request $request,
         Responder $responder,
         UserService $userService,
         UserActivationService $userActivationService
         ) {
-        $this->request = $request;
         $this->responder = $responder;
         $this->userService = $userService;
         $this->userActivationService = $userActivationService;
@@ -65,13 +56,14 @@ class GetActivationAction
     /**
      * __invoke.
      *
-     * @param array $params
+     * @param  Request
+     * @param  Response
      *
-     * @return string
+     * @return Response
      */
-    public function __invoke(array $params = [])
+    public function __invoke(Request $request, Response $response)
     {
-        $userActivation = $this->userActivationService->fetchUserActivationByToken($params['token']);
+        $userActivation = $this->userActivationService->fetchUserActivationByToken($request->getAttribute('token'));
 
         $user = null;
 
@@ -99,7 +91,7 @@ class GetActivationAction
 
         return $this->responder
             ->setView('failed')
-            ->setFormat($params['format'])
-            ->__invoke();
+            ->setFormat($request->getAttribute('format'))
+            ->__invoke($response);
     }
 }

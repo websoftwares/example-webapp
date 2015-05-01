@@ -3,7 +3,8 @@
 namespace Websoftwares\Application\Registration\Action;
 
 use Websoftwares\Application\Registration\Responder\FormResponder as Responder;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Kunststube\CSRFP\SignatureGenerator;
 
 /**
@@ -13,13 +14,6 @@ use Kunststube\CSRFP\SignatureGenerator;
  */
 class GetFormAction
 {
-    /**
-     * $request.
-     *
-     * @var object
-     */
-    protected $request;
-
     /**
      * $responder.
      *
@@ -37,16 +31,13 @@ class GetFormAction
     /**
      * __construct.
      *
-     * @param Request request
      * @param Responder          $responder
      * @param SignatureGenerator $signer
      */
     public function __construct(
-        Request $request,
         Responder $responder,
         SignatureGenerator $signer
         ) {
-        $this->request = $request;
         $this->responder = $responder;
         $this->signer = $signer;
     }
@@ -54,16 +45,17 @@ class GetFormAction
     /**
      * __invoke.
      *
-     * @param array $params
+     * @param  Request
+     * @param  Response
      *
-     * @return string
+     * @return Response
      */
-    public function __invoke(array $params = [])
+    public function __invoke(Request $request, Response $response)
     {
         return $this->responder
             ->setView('form')
             ->setVariable('signature', $this->signer->getSignature())
-            ->setFormat($params['format'])
-            ->__invoke();
+            ->setFormat($request->getAttribute('format'))
+            ->__invoke($response);
     }
 }

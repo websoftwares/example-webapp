@@ -27,19 +27,27 @@ Dotenv::load(__DIR__);
 $container = new League\Container\Container();
 /*
 |--------------------------------------------------------------------------
-| Config Request
+| Config Request PSR-7
 |--------------------------------------------------------------------------
 */
 $container->add('request', function () {
-    return Symfony\Component\HttpFoundation\Request::createFromGlobals();
+    return \Phly\Http\ServerRequestFactory::fromGlobals();
 });
 /*
 |--------------------------------------------------------------------------
-| Config Response
+| Config Response PSR-7
 |--------------------------------------------------------------------------
 */
 $container->add('response', function () {
-    return new Symfony\Component\HttpFoundation\Response();
+    return new \Phly\Http\Response();
+});
+/*
+|--------------------------------------------------------------------------
+| Config Middleware PSR-7
+|--------------------------------------------------------------------------
+*/
+$container->add('middleware', function () {
+    return new \Websoftwares\Middleware\MiddlewareRunner;
 });
 /*
 |--------------------------------------------------------------------------
@@ -47,10 +55,9 @@ $container->add('response', function () {
 |--------------------------------------------------------------------------
 */
 $container->add('router', function () {
-    $router_factory = new \Aura\Router\RouterFactory();
-    $router = $router_factory->newInstance();
 
-    return $router;
+    $routerContainer = new \Aura\Router\RouterContainer;
+    return $routerContainer;
 });
 /*
 |--------------------------------------------------------------------------
@@ -60,12 +67,20 @@ $container->add('router', function () {
 */
 try {
     $dispatcher = new Websoftwares\Skeleton\Dispatcher();
-    $dispatcher($container);
+    $server = $dispatcher($container);
+    
 } catch (\Exception $e) {
+
     // This is to be moved to a package NotFound
-    $response  = $container->get('response');
-    $response->setContent($e->getMessage());
-    $response->headers->set('Content-Type', 'text/plain');
-    $response->setStatusCode($response::HTTP_NOT_FOUND);
-    $response->send();
+    $callable = function($request, $response) use($e) {
+
+        $response = $response->withStatus(404);
+        $response->getBody()->write($e->getMessage());
+
+        return $response;
+    };
+
+    $server = new \Phly\Http\Server($callable,$container->get('request'),$container->get('response'));
 }
+// Listen
+$server->listen();

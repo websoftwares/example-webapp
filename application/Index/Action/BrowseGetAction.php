@@ -4,7 +4,8 @@ namespace Websoftwares\Application\Index\Action;
 
 use Websoftwares\Application\Index\Responder\BrowseResponder as Responder;
 use Websoftwares\Domain\User\UserService;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Kunststube\CSRFP\SignatureGenerator;
 
 /**
@@ -14,13 +15,6 @@ use Kunststube\CSRFP\SignatureGenerator;
  */
 class BrowseGetAction
 {
-    /**
-     * $request.
-     *
-     * @var object
-     */
-    protected $request;
-
     /**
      * $responder.
      *
@@ -45,18 +39,15 @@ class BrowseGetAction
     /**
      * __construct.
      *
-     * @param Request            $request
      * @param Responder          $responder
      * @param UserService        $userService
      * @param SignatureGenerator $signer
      */
     public function __construct(
-        Request $request,
         Responder $responder,
         UserService $userService,
         SignatureGenerator $signer
         ) {
-        $this->request = $request;
         $this->responder = $responder;
         $this->userService = $userService;
         $this->signer = $signer;
@@ -65,11 +56,12 @@ class BrowseGetAction
     /**
      * __invoke.
      *
-     * @param array $params
+     * @param  Request
+     * @param  Response
      *
-     * @return string
+     * @return Response
      */
-    public function __invoke(array $params = [])
+    public function __invoke(Request $request, Response $response)
     {
         // See if user is logged in
         if (! isset($_SESSION['user'])) {
@@ -83,9 +75,10 @@ class BrowseGetAction
                     ]);
         }
 
-        return $this->responder
+        $responder = $this->responder
             ->setVariable('signature', $this->signer->getSignature())
-            ->setFormat($params['format'])
-            ->__invoke();
+            ->setFormat($request->getAttribute('format'));
+
+        return $responder($response);
     }
 }

@@ -3,7 +3,8 @@
 namespace Websoftwares\Application\Registration\Action;
 
 use Websoftwares\Application\Registration\Responder\FormResponder as Responder;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Websoftwares\Domain\User\UserService;
 use Websoftwares\Domain\UserActivation\UserActivationService;
 use Websoftwares\Domain\Mail\MailService;
@@ -16,13 +17,6 @@ use Kunststube\CSRFP\SignatureGenerator;
  */
 class PostFormAction
 {
-    /**
-     * $request.
-     *
-     * @var object
-     */
-    protected $request;
-
     /**
      * $responder.
      *
@@ -61,7 +55,6 @@ class PostFormAction
     /**
      * __construct.
      *
-     * @param Request               $request
      * @param Responder             $responder
      * @param UserService           $userService
      * @param UserActivationService $userActivationService
@@ -69,14 +62,12 @@ class PostFormAction
      * @param SignatureGenerator    $signer
      */
     public function __construct(
-        Request $request,
         Responder $responder,
         UserService $userService,
         UserActivationService $userActivationService,
         MailService $mailService,
         SignatureGenerator $signer
         ) {
-        $this->request = $request;
         $this->responder = $responder;
         $this->userService = $userService;
         $this->userActivationService = $userActivationService;
@@ -87,19 +78,22 @@ class PostFormAction
     /**
      * __invoke.
      *
-     * @param array $params
+     * @param  Request
+     * @param  Response
      *
-     * @return string
+     * @return Response
      */
-    public function __invoke(array $params = [])
+    public function __invoke(Request $request, Response $response)
     {
+        $body = $request->getParsedBody();
+
         // Invalid request made
-        if (!$this->signer->validateSignature($this->request->get('_token'))) {
+        if (!$this->signer->validateSignature($body['_token'])) {
             throw new \Exception('Invalid request');
         }
 
         // Get form data
-        $data = $this->request->get('user');
+        $data = $body['user'];
 
         // Try to create user
         $user = $this->userService->createUser($data);
@@ -145,7 +139,7 @@ class PostFormAction
 
         return $this->responder
             ->setVariable('signature', $this->signer->getSignature())
-            ->setFormat($params['format'])
-            ->__invoke();
+            ->setFormat($request->getAttribute('format'))
+            ->__invoke($response);
     }
 }

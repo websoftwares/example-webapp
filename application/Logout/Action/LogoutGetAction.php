@@ -16,7 +16,7 @@ class LogoutGetAction
      *
      * @return string
      */
-    public function __invoke(array $params = [])
+    public function __invoke()
     {
         unset($_SESSION['user']);
         header('Location: /');
