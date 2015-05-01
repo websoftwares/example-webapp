@@ -31,20 +31,16 @@ class RegistrationProvider extends ServiceProvider
             return new \Kunststube\CSRFP\SignatureGenerator($_ENV['APP_SECRET']);
         });
 
-        $container->add('Websoftwares\Application\Registration\Responder\FormResponder')
-            ->withArgument('response');
+        $container->add('Websoftwares\Application\Registration\Responder\FormResponder');
 
         $container->add('registration.get.form', 'Websoftwares\Application\Registration\Action\GetFormAction')
-            ->withArgument('request')
             ->withArgument('Websoftwares\Application\Registration\Responder\FormResponder')
             ->withArgument('Kunststube\CSRFP\SignatureGenerator')
             ;
 
-        $container->add('Websoftwares\Application\Registration\Responder\FormResponder')
-            ->withArgument('response');
+        $container->add('Websoftwares\Application\Registration\Responder\FormResponder');
 
         $container->add('registration.post.form', 'Websoftwares\Application\Registration\Action\PostFormAction')
-            ->withArgument('request')
             ->withArgument('Websoftwares\Application\Registration\Responder\FormResponder')
             ->withArgument('Websoftwares\Domain\User\UserService')
             ->withArgument('Websoftwares\Domain\UserActivation\UserActivationService')

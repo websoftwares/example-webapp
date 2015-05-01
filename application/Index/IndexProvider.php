@@ -30,11 +30,9 @@ class IndexProvider extends ServiceProvider
             return new \Kunststube\CSRFP\SignatureGenerator($_ENV['APP_SECRET']);
         });
 
-        $container->add('Websoftwares\Application\Index\Responder\BrowseResponder')
-            ->withArgument('response');
+        $container->add('Websoftwares\Application\Index\Responder\BrowseResponder');
 
         $container->add('index.browse.get', 'Websoftwares\Application\Index\Action\BrowseGetAction')
-            ->withArgument('request')
             ->withArgument('Websoftwares\Application\Index\Responder\BrowseResponder')
             ->withArgument('Websoftwares\Domain\User\UserService')
             ->withArgument('Kunststube\CSRFP\SignatureGenerator')
@@ -45,7 +43,6 @@ class IndexProvider extends ServiceProvider
         });
 
         $container->add('index.browse.post', 'Websoftwares\Application\Index\Action\BrowsePostAction')
-            ->withArgument('request')
             ->withArgument('Websoftwares\Application\Index\Responder\BrowseResponder')
             ->withArgument('Websoftwares\Domain\User\UserService')
             ->withArgument('Websoftwares\Domain\Throttle\ThrottleService')

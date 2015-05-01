@@ -10,21 +10,13 @@ use League\Container\Container;
 class Dispatcher
 {
     /**
-     * getRoutes Return routes based on path info and convention names.
+     * getRoutes Return routes.
      *
      * @return array
      */
     public function getRoutes($path)
     {
-        $path = explode("/" , $path);
-
-        if (isset($path[1])) {
-            $path = "/" . $path[1];
-        } elseif(isset($path[0])) {
-            $path = $path[0];
-        }
-        
-        $file = '../routes'.$path.'/routes.php';
+        $file = '../config/routes.php';
         if (! file_exists($file)) {
             throw new \OutOfRangeException('the file: '.$file.' could not be retrieved');
         }
@@ -42,42 +34,68 @@ class Dispatcher
     public function __invoke(Container $container)
     {
         $request = $container->get('request');
-        $path = parse_url($request->server->get('REQUEST_URI'), PHP_URL_PATH);
+        $response = $container->get('response');
+        $middleware = $container->get('middleware');
+        $uri = $request->getUri();
+        $path = $uri->getPath();
 
         // Try getting routes
         try {
-            $routes = $this->getRoutes($request->getPathInfo());
+            $routes = $this->getRoutes($path);
         } catch (\OutOfRangeException $e) {
             // TODO log here ?
             throw $e;
         }
 
         // retrieve router from container
-        $router = $container->get('router');
+        $routerContainer = $container->get('router');
+        $map = $routerContainer->getMap();
 
         // Loop over routes
         if ($routes) {
             // Loop over configured routes
-            foreach ($routes as $routeConfiguration) {
-                $routeConfiguration($router);
+            foreach ($routes as $key => $routeConfiguration) {
+                $routeConfiguration($map);
             }
         }
 
-        // Match route with SERVER
-        $route = $router->match($path, $_SERVER);
+        // Match with Psr\Http\Message\ServerRequestInterface $request
+        $matcher = $routerContainer->getMatcher();
+        $route = $matcher->match($request);
 
         // If we have valid route
         if ($route) {
 
             // Register Service Provider for package
-            // More generic providers to be used across the system can be registerd after the container instance is created
-            if (isset($route->params['provider']) && $route->params['provider']) {
-                $container->addServiceProvider($route->params['provider']);
+            // More generic providers to be used across the system
+            // can be registerd after the container instance is created
+            if (isset($route->extras['provider']) && $route->extras['provider']) {
+                $container->addServiceProvider($route->extras['provider']);
+            }
+
+            // If we have attributes transfer its attributes to the $request
+            if ($route->attributes) {
+                // Transfer
+                foreach ($route->attributes as $key => $val) {
+                    $request = $request->withAttribute($key, $val);
+                }
             }
 
             // Get the action based on route name (key)
-            $ActionClass = $container->get($route->name); // <== This is where the magic happens all objects and their depdendencies are here forged
-            $ActionClass($route->params);
+            $callable = $container->get($route->name); // <== This is where the magic happens ,all objects and their depdendencies are here forged
+
+            // Add all available middleware to run
+            if (isset($route->extras['middleware']) && $route->extras['middleware']) {
+                foreach ($route->extras['middleware'] as $key => $m) {
+                    $middleware->add($m);
+                }
+
+                // The middleware becomes the callable
+                $middleware->add($callable);
+                $callable =  $middleware;
+            }
+
+            return $server = new \Phly\Http\Server($callable, $request, $response);
 
         // Throw exception
         } else {

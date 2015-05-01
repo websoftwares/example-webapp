@@ -20,8 +20,7 @@
         "php": ">=5.5.0",
         "ext-pdo" : "*",
         "ext-memcached" : "*",
-        "symfony/http-foundation": "~2.6.0",
-        "aura/router": "~2.2.0",
+        "aura/router": "3.*@dev",
         "league/container": "~1.3.2",       
         "foa/domain-payload" : "~1.0.0",
         "monolog/monolog" : "~1.13.0",
@@ -29,7 +28,9 @@
         "swiftmailer/swiftmailer": "5.4.0",
         "vlucas/phpdotenv": "~1.1.0",
         "kunststube/csrfp" : "dev-master",
-        "gregwar/captcha": "dev-master"
+        "gregwar/captcha": "dev-master",
+        "websoftwares/middleware": "dev-master",
+        "phly/http": "~0.0"
     },
     "autoload": {
         "psr-4": {
@@ -47,6 +48,5 @@
             "Websoftwares\\Tests\\Application\\":  "tests/skeleton/",
             "Websoftwares\\Tests\\Domain\\":  "tests/domain/"
         }
-    },
-    "minimum-stability ": "dev"
+    }
 }

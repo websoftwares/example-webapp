@@ -2,7 +2,7 @@
 
 namespace Websoftwares\Application\Registration\Responder;
 
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface as Response;
 use Websoftwares\Skeleton\AbstractResponder;
 
 /**
@@ -25,16 +25,6 @@ class FormResponder extends AbstractResponder
      * @var string
      */
     protected $format;
-
-    /**
-     * __construct.
-     *
-     * @param Response $response
-     */
-    public function __construct(Response $response)
-    {
-        $this->response = $response;
-    }
 
     /**
      * setFormat.
@@ -88,12 +78,16 @@ class FormResponder extends AbstractResponder
     /**
      * __invoke.
      *
-     * @return string
+     * @param Response $response
+     *
+     * @return Response $response
      */
-    public function __invoke()
+    public function __invoke(Response $response)
     {
-        $this->response->setContent($this->render());
-        $this->response->headers->set('Content-Type', 'text/html');
-        $this->response->send();
+        $response = $response->withHeader('content-type', 'text/html');
+        $response = $response->withStatus(200);
+        $response->getBody()->write($this->render());
+
+        return $response;
     }
 }
