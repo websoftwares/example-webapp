@@ -12,7 +12,6 @@ class LogoutGetAction
     /**
      * __invoke.
      *
-     * @param array $params
      *
      * @return string
      */
