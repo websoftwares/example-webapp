@@ -30,7 +30,7 @@ $container = new League\Container\Container();
 | Config Request PSR-7
 |--------------------------------------------------------------------------
 */
-$container->add('request', function () {
+$container->add('request', function() {
     return \Phly\Http\ServerRequestFactory::fromGlobals();
 });
 /*
@@ -38,7 +38,7 @@ $container->add('request', function () {
 | Config Response PSR-7
 |--------------------------------------------------------------------------
 */
-$container->add('response', function () {
+$container->add('response', function() {
     return new \Phly\Http\Response();
 });
 /*
@@ -46,7 +46,7 @@ $container->add('response', function () {
 | Config Middleware PSR-7
 |--------------------------------------------------------------------------
 */
-$container->add('middleware', function () {
+$container->add('middleware', function() {
     return new \Websoftwares\Middleware\MiddlewareRunner;
 });
 /*
@@ -54,7 +54,7 @@ $container->add('middleware', function () {
 | Config Router
 |--------------------------------------------------------------------------
 */
-$container->add('router', function () {
+$container->add('router', function() {
 
     $routerContainer = new \Aura\Router\RouterContainer;
     return $routerContainer;
@@ -80,7 +80,7 @@ try {
         return $response;
     };
 
-    $server = new \Phly\Http\Server($callable,$container->get('request'),$container->get('response'));
+    $server = new \Phly\Http\Server($callable, $container->get('request'), $container->get('response'));
 }
 // Listen
 $server->listen();
